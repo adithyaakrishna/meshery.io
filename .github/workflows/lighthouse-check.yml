@@ -15,7 +15,7 @@ jobs:
         id: lighthouse
         uses: treosh/lighthouse-ci-action@v9
         with:
-          configPath: ./.github/workflows/lighthouserc.yml
+          configPath: ./.github/lighthouserc.yml
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true
           urls: |
