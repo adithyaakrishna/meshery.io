@@ -9,10 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Lighthouse CI Action  
-        env:
-          PR_NUMBER: ${{ github.event.number }}
+      
+      - name: Wait for the Netlify Preview
+        # https://github.com/JakePartusch/wait-for-netlify-action
+        uses: jakepartusch/wait-for-netlify-action@v1
+        id: netlify
+        with:
+          site_name: 'meshery'
+      
+      - name: Lighthouse CI Action
         id: lighthouse
         uses: treosh/lighthouse-ci-action@v9
         with:
@@ -20,4 +25,4 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true
           urls: |
-            https://deploy-preview-${PR_NUMBER}--mesheryio-preview.netlify.app
+            ${{ steps.netlify.outputs.url }}
